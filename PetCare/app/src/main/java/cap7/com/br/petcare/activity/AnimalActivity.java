@@ -17,7 +17,7 @@ import cap7.com.br.petcare.model.Animal;
  * Created by Virginia on 28/02/2016.
  */
 public class AnimalActivity extends AppCompatActivity {
-
+    //animal
     private AnimalDao animalDao;
 
     private Spinner spinSexo;
