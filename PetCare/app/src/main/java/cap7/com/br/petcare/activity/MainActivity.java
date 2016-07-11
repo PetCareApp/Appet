@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        
         //atualiza o menu lateral
         atualizarMenu();
 
@@ -389,6 +389,7 @@ public class MainActivity extends AppCompatActivity implements
         //adicionando menu dinamico com os animais carregados da base.
         menu = navigationView.getMenu();
 
+
         animalDao = new AnimalDao(getBaseContext());
         final Cursor cursor = animalDao.carregarAnimais();
         menu.removeGroup(1);
@@ -398,6 +399,7 @@ public class MainActivity extends AppCompatActivity implements
                 int idAnimal = (Integer.valueOf(idString));
                 String nomeAnimal = cursor.getString(cursor.getColumnIndexOrThrow(ScriptDB.ANIMAL_NOME));
                 menu.add(1, idAnimal, Menu.NONE, nomeAnimal).setIcon(R.drawable.ic_pets_black_24dp);
+
             } while (cursor.moveToNext());
         }
 
