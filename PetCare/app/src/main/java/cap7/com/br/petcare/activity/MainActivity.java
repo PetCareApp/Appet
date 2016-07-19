@@ -2,25 +2,34 @@ package cap7.com.br.petcare.activity;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.HeaderViewListAdapter;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,9 +49,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 import cap7.com.br.petcare.R;
+import cap7.com.br.petcare.Util.BuscarLocalTask;
 import cap7.com.br.petcare.Util.Contrato;
 import cap7.com.br.petcare.Util.ScriptDB;
 import cap7.com.br.petcare.dao.AnimalDao;
@@ -54,6 +67,21 @@ public class MainActivity extends AppCompatActivity implements
     private static final int REQUEST_ERRO_PLAY_SERVICES = 1;
     private static final int REQUEST_CHECAR_GPS = 2;
     private static final String EXTRA_DIALOG = "dialog";
+
+    //#[inicio] buscar endereco
+    private static final int LOADER_ENDERECO = 1;
+    private static final String EXTRA_ORIG = "orig";
+    private static final String EXTRA_DEST = "dest";
+
+    EditText mEdtLocal;
+    ImageButton mBtnBuscar;
+    DialogFragment mDialogEnderecos;
+    TextView mTxtProgresso;
+    LinearLayout mLayoutProgresso;
+
+    LoaderManager mLoaderManager;
+    LatLng mDestino;
+    //[fim~#buscar enderco
 
     Handler mHandler;
     boolean mDeveExibirDialog;
@@ -90,6 +118,23 @@ public class MainActivity extends AppCompatActivity implements
         email = preferences.getString(Contrato.EMAIL_PROPRIETARIO_PREF, null);
         //#end-preferences
 
+        //[inicio] #buscar endereco
+        mEdtLocal = (EditText)findViewById(R.id.edtLocal);
+        mBtnBuscar = (ImageButton)findViewById(R.id.imgBtnBuscar);
+
+        mBtnBuscar.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                mBtnBuscar.setEnabled(false);
+                buscarEndereco();
+            }
+        });
+        mLoaderManager = getSupportLoaderManager();
+        mTxtProgresso = (TextView)findViewById(R.id.txtProgresso);
+        mLayoutProgresso = (LinearLayout)findViewById(R.id.llProgresso);
+        //[fin] #buscar endereco
+
+
         mHandler = new Handler();
         mDeveExibirDialog = savedInstanceState == null;
 
@@ -108,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        
+
         //atualiza o menu lateral
         atualizarMenu();
 
@@ -251,14 +296,126 @@ public class MainActivity extends AppCompatActivity implements
 
     //Metodo que vai receber as coordenadas de onde ficarao os petshops.
     private void atualizarMapa(){
-        //vai surmir quando for pegar pela localização do usuário.
+        //vai surmir origem e destino hardcoded quando for pegar pela localização do usuário.
+        //[inicio] #buscar endereco
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mOrigem, 17.0f));
         mGoogleMap.clear();
+        if (mOrigem != null){
         mGoogleMap.addMarker(new MarkerOptions()
                 .position(mOrigem)
                 .title("petshop x")
                 .snippet("Local Atual"));
+        }
+        if (mDestino != null){
+            mGoogleMap.addMarker(new MarkerOptions()
+                    .position(mDestino)
+                    .title("petshop y")
+                    .snippet("Local Atual y"));
+        }
+        if (mOrigem != null) {
+            if (mDestino != null) {
+                LatLngBounds area = new LatLngBounds.Builder()
+                        .include(mOrigem)
+                        .include(mDestino)
+                        .build();
+                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mDestino, 17.0f));
+            } else {
+                mGoogleMap.animateCamera(
+                        CameraUpdateFactory.newLatLngZoom(mOrigem, 17.0f));
+            }
+        }
+        //[fim] #buscar endereco
     }
+
+    private void buscarEndereco(){
+        InputMethodManager imm = (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mEdtLocal.getWindowToken(), 0);
+        mLoaderManager.restartLoader(LOADER_ENDERECO, null, mBuscaLocalCallback);
+        exibirProgresso(getString(R.string.msg_buscar));
+    }
+
+    private void exibirProgresso(String texto){
+        mTxtProgresso.setText(texto);
+        mLayoutProgresso.setVisibility(View.VISIBLE);
+    }
+
+    private void ocultarProgresso(){
+        mLayoutProgresso.setVisibility(View.GONE);
+    }
+
+    private void exibirListaEnderecos(final List<Address> enderecosEncontrados){
+        ocultarProgresso();
+        mBtnBuscar.setEnabled(true);
+        if (enderecosEncontrados != null && enderecosEncontrados.size() > 0) {
+            final String[] descricaoDosEnderecos = new String[enderecosEncontrados.size()];
+            for (int i = 0; i < descricaoDosEnderecos.length; i++) {
+                Address endereco = enderecosEncontrados.get(i);
+                StringBuffer rua = new StringBuffer();
+                for (int j = 0; j < endereco.getMaxAddressLineIndex(); j++) {
+                    if (rua.length() > 0) {
+                        rua.append('\n');
+                    }
+                    rua.append(endereco.getAddressLine(j));
+                }
+                String pais = endereco.getCountryName();
+                String descricaoEndereco = String.format("%s, %s", rua, pais);
+                descricaoDosEnderecos[i] = descricaoEndereco;
+            }
+            mDialogEnderecos = new DialogFragment(){
+                DialogInterface.OnClickListener selecionarEnderecoClick =
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Address enderecoSelecionado = enderecosEncontrados.get(which);
+                                mDestino = new LatLng(
+                                        enderecoSelecionado.getLatitude(),
+                                        enderecoSelecionado.getLongitude());
+                                obterUltimaLocalizacao();
+                                atualizarMapa();
+
+                            }
+                        };
+                @Override
+                public Dialog onCreateDialog(Bundle savedInstanceState) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle(R.string.titulo_lista_endereco)
+                            .setItems(descricaoDosEnderecos, selecionarEnderecoClick);
+                    return builder.create();
+                }
+            };
+            mDialogEnderecos.show(getFragmentManager(), "TAG_ENDERECOS");
+        }
+    }
+
+    private boolean estaCrregando(int id){
+        Loader<?> loader = mLoaderManager.getLoader(id);
+        if (loader != null && loader.isStarted()){
+            return true;
+        }
+        return false;
+    }
+
+    LoaderManager.LoaderCallbacks<List<Address>> mBuscaLocalCallback =
+            new LoaderManager.LoaderCallbacks<List<Address>>() {
+                @Override
+                public Loader<List<Address>> onCreateLoader(int i, Bundle bundle) {
+                    return new BuscarLocalTask(MainActivity.this,
+                            mEdtLocal.getText().toString());
+                }
+                @Override
+                public void onLoadFinished(Loader<List<Address>> listLoader,
+                                           final List<Address> addresses) {
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            exibirListaEnderecos(addresses);
+                        }
+                    });
+                }
+                @Override
+                public void onLoaderReset(Loader<List<Address>> listLoader) {
+                }
+            };
+
 
     private void obterUltimaLocalizacao() {
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -281,12 +438,20 @@ public class MainActivity extends AppCompatActivity implements
     protected void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
         outState.putBoolean(EXTRA_DIALOG, mDeveExibirDialog);
+        //[inicio] #buscar endereco
+        outState.putParcelable(EXTRA_ORIG, mOrigem);
+        outState.putParcelable(EXTRA_DEST, mDestino);
+        //[fim] #buscar endereco
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState){
         super.onRestoreInstanceState(savedInstanceState);
         mDeveExibirDialog = savedInstanceState.getBoolean(EXTRA_DIALOG, true);
+        //[inicio] #buscar endereco
+        mOrigem = savedInstanceState.getParcelable(EXTRA_ORIG);
+        mDestino = savedInstanceState.getParcelable(EXTRA_DEST);
+        //[fim] #buscar endereco
     }
 
     @Override
@@ -301,7 +466,7 @@ public class MainActivity extends AppCompatActivity implements
                 mHandler.removeCallbacksAndMessages(null);
                 obterUltimaLocalizacao();
             } else {
-                Toast.makeText(this, "Habilitar GPS para te localizarmos!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Habilite o GPS para te localizarmos!", Toast.LENGTH_SHORT).show();
                 //finish();
                 //fecha a aplicacao se nao tiver o gps (remover isso)
             }
@@ -312,6 +477,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onConnected(Bundle bundle) {
             verificarStatusGPS();
+        //[inicio] #buscar endereco
+        if (estaCrregando(LOADER_ENDERECO) && mDestino == null){
+            mLoaderManager.initLoader(LOADER_ENDERECO, null, mBuscaLocalCallback);
+            exibirProgresso(getString(R.string.msg_buscar));
+        }
+        //[fim] #buscar endereco
     }
 
     @Override
