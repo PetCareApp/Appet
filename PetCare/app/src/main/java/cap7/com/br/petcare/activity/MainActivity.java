@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements
         setSupportActionBar(toolbar);
 
         //atualiza o menu lateral
-        atualizarMenu();
+        //atualizarMenu();
 
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -192,17 +192,17 @@ public class MainActivity extends AppCompatActivity implements
                         finish();
                         return true;
                     default:
-                        try {
+                      /*  try {
                             animal = animalDao.recuperarAnimal(menuItem.getItemId());
                             Intent itAnimal = new Intent(MainActivity.this, DetalhesAnimalActivity.class);
                             itAnimal.putExtra("idAnimal", Integer.valueOf(animal.getId()));
                             itAnimal.putExtra("nomeAnimal", animal.getNome());
                             startActivity(itAnimal);
-                        } catch (Exception e) {
+                        } catch (Exception e) {*/
                             Toast.makeText(getApplicationContext(), "Erro ao selecionar o menu.", Toast.LENGTH_SHORT).show();
-                        } finally {
+                       // } finally {
                             return true;
-                        }
+                       // }
                 }
             }
         });
@@ -249,14 +249,14 @@ public class MainActivity extends AppCompatActivity implements
          super.onResume();
          nome = preferences.getString(Contrato.NOME_PROPRIETARIO_PREF, null);
          id = preferences.getInt(Contrato.ID_PROPRIETARIO_PREF, -1);
-         atualizarMenu();
+         //atualizarMenu();
      }
 
      @Override
      protected void onStart(){
          super.onStart();
          mGoogleApiClient.connect();
-         atualizarMenu();
+         //atualizarMenu();
      }
 
      @Override
@@ -264,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements
          super.onRestart();
          nome = preferences.getString(Contrato.NOME_PROPRIETARIO_PREF, null);
          id = preferences.getInt(Contrato.ID_PROPRIETARIO_PREF, -1);
-         atualizarMenu();
+         //atualizarMenu();
      }
 
      @Override
@@ -298,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements
     private void atualizarMapa(){
         //vai surmir origem e destino hardcoded quando for pegar pela localização do usuário.
         //[inicio] #buscar endereco
-        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mOrigem, 17.0f));
+        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mDestino, 17.0f));
         mGoogleMap.clear();
         if (mOrigem != null){
         mGoogleMap.addMarker(new MarkerOptions()
