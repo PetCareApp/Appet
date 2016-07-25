@@ -298,7 +298,9 @@ public class MainActivity extends AppCompatActivity implements
     private void atualizarMapa(){
         //vai surmir origem e destino hardcoded quando for pegar pela localização do usuário.
         //[inicio] #buscar endereco
+        if (mDestino != null){
         mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mDestino, 17.0f));
+        }
         mGoogleMap.clear();
         if (mOrigem != null){
         mGoogleMap.addMarker(new MarkerOptions()

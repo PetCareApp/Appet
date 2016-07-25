@@ -25,13 +25,14 @@
         android:textColorHint="#ffffff"
         android:textColor="#ffffff"
         android:password="false"
-        android:backgroundTint="#e6ff00"
+        android:backgroundTint="#15ff00"
         android:layout_marginTop="61dp"
         android:layout_below="@+id/imgTitulo"
         android:layout_alignLeft="@+id/imgTitulo"
         android:layout_alignStart="@+id/imgTitulo"
         android:layout_alignRight="@+id/imgTitulo"
-        android:layout_alignEnd="@+id/imgTitulo" />
+        android:layout_alignEnd="@+id/imgTitulo"
+        android:singleLine="true"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -42,14 +43,15 @@
         android:hint="@string/txt_email_proprietario"
         android:inputType="textEmailAddress"
         android:id="@+id/edtEmailProprietario"
-        android:backgroundTint="#e6ff00"
+        android:backgroundTint="#15ff00"
         android:textColorHint="#ffffff"
         android:textColor="#ffffff"
         android:layout_below="@+id/edtNomeProprietario"
         android:layout_alignLeft="@+id/edtNomeProprietario"
         android:layout_alignStart="@+id/edtNomeProprietario"
         android:layout_alignRight="@+id/edtNomeProprietario"
-        android:layout_alignEnd="@+id/edtNomeProprietario" />
+        android:layout_alignEnd="@+id/edtNomeProprietario"
+        android:singleLine="true"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -61,7 +63,7 @@
         android:drawablePadding="20dp"
         android:hint="@string/txt_tel_proprietario"
         android:id="@+id/edtTelProprietario"
-        android:backgroundTint="#e6ff00"
+        android:backgroundTint="#15ff00"
         android:textColorHint="#ffffff"
         android:textColor="#ffffff"
         android:layout_below="@+id/edtEmailProprietario"
