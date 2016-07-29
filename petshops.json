@@ -1,1 +1,28 @@
-teste
+{
+"petshops": [
+{
+"id": 1,
+"nome": "PetBessa",
+"descricao": "Horario de funcionamento: 13:00 - 18:00 de segunda a sexta",
+"lat": -7.0793028,
+"lng": -34.8343305,
+"site": "www.google.com"
+},
+{
+"id": 1,
+"nome": "PetManaira",
+"descricao": "Horario de funcionamento: 12:00 - 18:00 de segunda a sexta",
+"lat": -7.0795580,
+"lng": -34.8350850,
+"site": "www.google.com"
+},
+{
+"id": 1,
+"nome": "PetTeste",
+"descricao": "Horario de funcionamento: 13:00 - 18:00 de segunda a sexta com tosa, banho, rações",
+"lat": -7.0791580,
+"lng": -34.8343305,
+"site": "www.google.com"
+}
+] 
+}
