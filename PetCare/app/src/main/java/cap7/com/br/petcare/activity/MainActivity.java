@@ -9,8 +9,11 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.location.Address;
 import android.location.Location;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
@@ -26,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.HeaderViewListAdapter;
 import android.widget.ImageButton;
@@ -48,10 +52,14 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cap7.com.br.petcare.R;
@@ -59,7 +67,9 @@ import cap7.com.br.petcare.Util.BuscarLocalTask;
 import cap7.com.br.petcare.Util.Contrato;
 import cap7.com.br.petcare.Util.ScriptDB;
 import cap7.com.br.petcare.dao.AnimalDao;
+import cap7.com.br.petcare.dao.PetshopHttp;
 import cap7.com.br.petcare.model.Animal;
+import cap7.com.br.petcare.model.Petshop;
 
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -81,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements
 
     LoaderManager mLoaderManager;
     LatLng mDestino;
+    List<Petshop> mPetshops;
+    PetshopTask mTask;
     //[fim~#buscar enderco
 
     Handler mHandler;
@@ -103,9 +115,14 @@ public class MainActivity extends AppCompatActivity implements
     private DrawerLayout drawerLayout;
     private Menu menu;
 
+    //#JSON
+    Button mBtnAcessarPetshops;
+    private View view;
+
     //#google maps API
     GoogleMap mGoogleMap;
     LatLng mOrigem;
+    LatLng mLocalPetshops;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements
         //[inicio] #buscar endereco
         mEdtLocal = (EditText)findViewById(R.id.edtLocal);
         mBtnBuscar = (ImageButton)findViewById(R.id.imgBtnBuscar);
+
 
         mBtnBuscar.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -149,13 +167,58 @@ public class MainActivity extends AppCompatActivity implements
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-       // atualizarMapa();
+        // atualizarMapa();
+
+        iniciarDownload();
+
+        mGoogleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            public View getInfoWindow(Marker arg0) {
+                Toast.makeText(getApplicationContext(), "content1 :)", Toast.LENGTH_SHORT).show();
+
+                View v = getLayoutInflater().inflate(R.layout.custom_infowindow, null);
+
+                Button titleUi = ((Button) v.findViewById(R.id.btnAcessarPetshops));
+                titleUi.setText(arg0.getTitle());
+                return v;
+            }
+
+            public View getInfoContents(Marker arg0) {
+                mBtnAcessarPetshops.setText("content2teste");
+                //View v = getLayoutInflater().inflate(R.layout.custom_infowindow, null);
+                Toast.makeText(getApplicationContext(), "content2 :)", Toast.LENGTH_SHORT).show();
+                return null;
+
+            }
+        });
+
+        //XX
+        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+                Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_SHORT).show();
+                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                CustomTabsIntent customTabsIntent = builder.build();
+                try {
+                customTabsIntent.launchUrl(MainActivity.this, Uri.parse(marker.getSnippet()));
+                } catch (Exception e){
+                    customTabsIntent.launchUrl(MainActivity.this, Uri.parse("http://www.google.com"));
+                }
+            }
+        });
+
+        if(mPetshops == null){
+            mPetshops = new ArrayList<>();
+        }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //atualiza o menu lateral
         //atualizarMenu();
+
 
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -199,10 +262,10 @@ public class MainActivity extends AppCompatActivity implements
                             itAnimal.putExtra("nomeAnimal", animal.getNome());
                             startActivity(itAnimal);
                         } catch (Exception e) {*/
-                            Toast.makeText(getApplicationContext(), "Erro ao selecionar o menu.", Toast.LENGTH_SHORT).show();
-                       // } finally {
-                            return true;
-                       // }
+                        Toast.makeText(getApplicationContext(), "Erro ao selecionar o menu.", Toast.LENGTH_SHORT).show();
+                        // } finally {
+                        return true;
+                    // }
                 }
             }
         });
@@ -242,39 +305,39 @@ public class MainActivity extends AppCompatActivity implements
         };
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
-     }
+    }
 
-     @Override
-     protected void onResume() {
-         super.onResume();
-         nome = preferences.getString(Contrato.NOME_PROPRIETARIO_PREF, null);
-         id = preferences.getInt(Contrato.ID_PROPRIETARIO_PREF, -1);
-         //atualizarMenu();
-     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        nome = preferences.getString(Contrato.NOME_PROPRIETARIO_PREF, null);
+        id = preferences.getInt(Contrato.ID_PROPRIETARIO_PREF, -1);
+        //atualizarMenu();
+    }
 
-     @Override
-     protected void onStart(){
-         super.onStart();
-         mGoogleApiClient.connect();
-         //atualizarMenu();
-     }
+    @Override
+    protected void onStart(){
+        super.onStart();
+        mGoogleApiClient.connect();
+        //atualizarMenu();
+    }
 
-     @Override
-     protected void onRestart() {
-         super.onRestart();
-         nome = preferences.getString(Contrato.NOME_PROPRIETARIO_PREF, null);
-         id = preferences.getInt(Contrato.ID_PROPRIETARIO_PREF, -1);
-         //atualizarMenu();
-     }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        nome = preferences.getString(Contrato.NOME_PROPRIETARIO_PREF, null);
+        id = preferences.getInt(Contrato.ID_PROPRIETARIO_PREF, -1);
+        //atualizarMenu();
+    }
 
-     @Override
-     protected void onStop(){
-         if(mGoogleApiClient != null && mGoogleApiClient.isConnected()){
-             mGoogleApiClient.disconnect();
-         }
-         mHandler.removeCallbacksAndMessages(null);
-         super.onStop();
-     }
+    @Override
+    protected void onStop(){
+        if(mGoogleApiClient != null && mGoogleApiClient.isConnected()){
+            mGoogleApiClient.disconnect();
+        }
+        mHandler.removeCallbacksAndMessages(null);
+        super.onStop();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -294,19 +357,35 @@ public class MainActivity extends AppCompatActivity implements
         return super.onOptionsItemSelected(item);
     }
 
+
     //Metodo que vai receber as coordenadas de onde ficarao os petshops.
     private void atualizarMapa(){
         //vai surmir origem e destino hardcoded quando for pegar pela localização do usuário.
         //[inicio] #buscar endereco
         if (mDestino != null){
-        mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mDestino, 17.0f));
+            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mDestino, 17.0f));
         }
         mGoogleMap.clear();
+        preencherMapa();
+        //oi
+       /* if (mTask == null){
+            if (PetshopHttp.temConexao(MainActivity.this)){
+
+                iniciarDownload();
+                preencherMapa();
+            } else {
+                //sem conexao
+            }
+        } else if (mTask.getStatus() == AsyncTask.Status.RUNNING){
+            exibirProgress(true);
+        } */
+        //oi
+
         if (mOrigem != null){
-        mGoogleMap.addMarker(new MarkerOptions()
-                .position(mOrigem)
-                .title("petshop x")
-                .snippet("Local Atual"));
+            Marker melbourne = mGoogleMap.addMarker(new MarkerOptions()
+                    .position(mOrigem)
+                    .title("petshop x")
+                    .snippet("Local Atual").snippet("local 2"));
         }
         if (mDestino != null){
             mGoogleMap.addMarker(new MarkerOptions()
@@ -322,8 +401,16 @@ public class MainActivity extends AppCompatActivity implements
                         .build();
                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mDestino, 17.0f));
             } else {
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(mOrigem)
+                        .zoom(17)
+                        .bearing(90)
+                        .tilt(45)
+                        .build();
+                mGoogleMap.getUiSettings().setZoomControlsEnabled(false);
+                mGoogleMap.setBuildingsEnabled(true);
                 mGoogleMap.animateCamera(
-                        CameraUpdateFactory.newLatLngZoom(mOrigem, 17.0f));
+                        CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         }
         //[fim] #buscar endereco
@@ -419,7 +506,8 @@ public class MainActivity extends AppCompatActivity implements
             };
 
 
-    private void obterUltimaLocalizacao() {
+    public void obterUltimaLocalizacao() {
+
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (location != null){
             mTentativas = 0;
@@ -433,6 +521,43 @@ public class MainActivity extends AppCompatActivity implements
                     obterUltimaLocalizacao();
                 }
             }, 2000);
+        }
+    }
+
+    public void obterUltimaLocalizacao(final View view) {
+
+        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (location != null){
+            mTentativas = 0;
+            mOrigem = new LatLng(location.getLatitude(), location.getLongitude());
+            atualizarMapa();
+        } else if (mTentativas < 10){
+            mTentativas++;
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    obterUltimaLocalizacao(view);
+                }
+            }, 2000);
+        }
+    }
+
+
+    private void preencherMapa(){
+        try {
+            if (mPetshops != null) {
+                for (Petshop petshop :
+                        mPetshops) {
+                    mLocalPetshops = new LatLng(petshop.lat, petshop.lng);
+                    mGoogleMap.addMarker(new MarkerOptions()
+                            .position(mLocalPetshops)
+                            .title(petshop.nome)
+                            .snippet(petshop.site)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher)));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -462,11 +587,39 @@ public class MainActivity extends AppCompatActivity implements
         if (requestCode == REQUEST_ERRO_PLAY_SERVICES
                 && resultCode == RESULT_OK){
             mGoogleApiClient.connect();
+            if (mTask == null){
+                if (PetshopHttp.temConexao(MainActivity.this)){
+                    Toast.makeText(this, "bbbbbbb!", Toast.LENGTH_SHORT).show();
+                    iniciarDownload();
+                    //   preencherMapa();
+                } else {
+                    //sem conexao
+                }
+            } else if (mTask.getStatus() == AsyncTask.Status.RUNNING){
+                exibirProgress(true);
+            }
+
         } else if (requestCode == REQUEST_CHECAR_GPS){
             if (resultCode == RESULT_OK){
                 mTentativas = 0;
                 mHandler.removeCallbacksAndMessages(null);
                 obterUltimaLocalizacao();
+                //oi
+                if(mPetshops == null){
+                    mPetshops = new ArrayList<>();
+                }
+                if (mTask == null){
+                    if (PetshopHttp.temConexao(MainActivity.this)){
+                        Toast.makeText(this, "AAAAAA!", Toast.LENGTH_SHORT).show();
+                        iniciarDownload();
+
+                    } else {
+                        //sem conexao
+                    }
+                } else if (mTask.getStatus() == AsyncTask.Status.RUNNING){
+                    exibirProgress(true);
+                }
+                //oi
             } else {
                 Toast.makeText(this, "Habilite o GPS para te localizarmos!", Toast.LENGTH_SHORT).show();
                 //finish();
@@ -478,7 +631,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onConnected(Bundle bundle) {
-            verificarStatusGPS();
+        verificarStatusGPS();
         //[inicio] #buscar endereco
         if (estaCrregando(LOADER_ENDERECO) && mDestino == null){
             mLoaderManager.initLoader(LOADER_ENDERECO, null, mBuscaLocalCallback);
@@ -533,16 +686,17 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onResult(LocationSettingsResult locationSettingsResult) {
                 final Status status = locationSettingsResult.getStatus();
-                switch (status.getStatusCode()){
+                switch (status.getStatusCode()) {
                     case LocationSettingsStatusCodes.SUCCESS:
                         obterUltimaLocalizacao();
+                        //preencherMapa();
                         break;
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                        if (mDeveExibirDialog){
+                        if (mDeveExibirDialog) {
                             try {
                                 status.startResolutionForResult(MainActivity.this, REQUEST_CHECAR_GPS);
                                 mDeveExibirDialog = false;
-                            } catch (IntentSender.SendIntentException e){
+                            } catch (IntentSender.SendIntentException e) {
                                 e.printStackTrace();
                             }
                         }
@@ -587,4 +741,51 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    // @Override
+    // public void onActivityCreated(Bundle savedInstanceState) {
+
+    //}
+
+    private void exibirProgress(boolean exibir) {
+        if (exibir) {
+            Toast.makeText(getApplicationContext(), "baixando)", Toast.LENGTH_SHORT).show();
+        }
+        //   mTextMensagem.setVisibility(exibir ? View.VISIBLE : View.GONE);
+        //    mProgressBar.setVisibility(exibir ? View.VISIBLE : View.GONE);
+    }
+    public void iniciarDownload() {
+        if (mTask == null ||  mTask.getStatus() != AsyncTask.Status.RUNNING) {
+            mTask = new PetshopTask();
+            mTask.execute();
+        }
+    }
+
+    class PetshopTask extends AsyncTask<Void, Void, List<Petshop>>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            exibirProgress(true);
+        }
+        @Override
+        protected List<Petshop> doInBackground(Void... strings) {
+            //return LivroHttp.carregarLivrosJson();
+            return PetshopHttp.carregarPetshopsJson();
+        }
+        @Override
+        protected void onPostExecute(List<Petshop> petshops) {
+            super.onPostExecute(petshops);
+            exibirProgress(false);
+            if (petshops != null) {
+                mPetshops.clear();
+                mPetshops.addAll(petshops);
+                atualizarMapa();
+            } else {
+                // mTextMensagem.setText("Falha ao obter livros");
+                Toast.makeText(getApplicationContext(), "Falha ao obter petsshops", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
 }
+

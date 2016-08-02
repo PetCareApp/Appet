@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bdescuro"
-    android:adjustViewBounds="false">
+    android:adjustViewBounds="false"
+    android:weightSum="1">
 
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="40dp"
         android:id="@+id/imgTitulo"
         android:src="@drawable/titulo"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="61dp" />
+        android:layout_gravity="center"
+        android:layout_weight="0.01" />
+
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:id="@+id/edtNomeProprietario"
         android:drawableLeft="@drawable/login"
@@ -26,16 +28,15 @@
         android:textColor="#ffffff"
         android:password="false"
         android:backgroundTint="#15ff00"
-        android:layout_marginTop="61dp"
-        android:layout_below="@+id/imgTitulo"
-        android:layout_alignLeft="@+id/imgTitulo"
-        android:layout_alignStart="@+id/imgTitulo"
-        android:layout_alignRight="@+id/imgTitulo"
-        android:layout_alignEnd="@+id/imgTitulo"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:layout_alignBaseline="@+id/btnLogar"
+        android:layout_alignBottom="@+id/btnLogar"
+        android:layout_toRightOf="@+id/frameLayout"
+        android:layout_toEndOf="@+id/frameLayout"
+        android:layout_gravity="center_horizontal" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/email"
         android:drawableTint="@color/White"
@@ -51,10 +52,11 @@
         android:layout_alignStart="@+id/edtNomeProprietario"
         android:layout_alignRight="@+id/edtNomeProprietario"
         android:layout_alignEnd="@+id/edtNomeProprietario"
-        android:singleLine="true"/>
+        android:singleLine="true"
+        android:layout_gravity="center_horizontal" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:drawableLeft="@drawable/telefone"
         android:inputType="phone"
@@ -70,12 +72,14 @@
         android:layout_alignLeft="@+id/edtEmailProprietario"
         android:layout_alignStart="@+id/edtEmailProprietario"
         android:layout_alignRight="@+id/edtEmailProprietario"
-        android:layout_alignEnd="@+id/edtEmailProprietario" />
+        android:layout_alignEnd="@+id/edtEmailProprietario"
+        android:layout_gravity="center_horizontal" />
 
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Entrar"
         android:textAllCaps="false"
         android:id="@+id/btnLogar"
@@ -87,14 +91,10 @@
         android:textColor="#FFFFFF"
         android:textSize="25sp"
         android:elegantTextHeight="true"
-        android:layout_marginTop="63dp"
-        android:layout_below="@+id/edtTelProprietario"
-        android:layout_alignLeft="@+id/edtTelProprietario"
-        android:layout_alignStart="@+id/edtTelProprietario"
-        android:layout_alignRight="@+id/edtTelProprietario"
-        android:layout_alignEnd="@+id/edtTelProprietario" />
+        android:layout_below="@+id/imgTitulo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="80dp" />
 
 
-
-
-</RelativeLayout>
+</LinearLayout>
