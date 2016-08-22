@@ -2,27 +2,83 @@
 "petshops": [
 {
 "id": 1,
-"nome": "PetBessa",
+"nome": "Pet Recife",
 "descricao": "Horario de funcionamento: 13:00 - 18:00 de segunda a sexta",
-"lat": -7.0793028,
-"lng": -34.8343305,
-"site": "http://www.google.com"
+"lat": -8.063249,
+"lng": -34.873922,
+"site": "www.recifepet.com.br"
 },
 {
-"id": 1,
-"nome": "PetManaira",
+"id": 2,
+"nome": "Pet Manaira",
 "descricao": "Horario de funcionamento: 12:00 - 18:00 de segunda a sexta",
-"lat": -7.0795580,
-"lng": -34.8350850,
-"site": "http://www.google.com"
+"lat": -8.065429,
+"lng": -34.873965,
+"site": "www.petmanaira.com"
 },
 {
-"id": 1,
-"nome": "PetTeste",
-"descricao": "Horario de funcionamento: 13:00 - 18:00 de segunda a sexta com tosa, banho, rações",
-"lat": -7.0791580,
-"lng": -34.8343305,
-"site": "http://www.google.com"
+"id": 3,
+"nome": "Dalfred Petshop",
+"descricao": "Horario de funcionamento: 06:00 - 00:00 de segunda a sábado",
+"lat": -8.064815,
+"lng": -34.87356,
+"site": "www.dalfredultimoromantico.com.br"
+},
+{
+"id": 4,
+"nome": "Cao que Ri",
+"descricao": "Horario de funcionamento: 12:00 - 18:00 de segunda a sexta",
+"lat": -8.06108,
+"lng": -34.871054,
+"site": "www.caoqueri.com.br"
+},
+{
+"id": 5,
+"nome": "Dory Pexies",
+"descricao": "Horario de funcionamento: 06:00 - 17:00 de segunda a sexta",
+"lat": -8.062657,
+"lng": -34.871446,
+"site": "www.dorypeixes.com.br"
+},
+{
+"id": 6,
+"nome": "Pokepet",
+"descricao": "Horario de funcionamento: 08:00 - 18:00 de segunda a sexta",
+"lat": -8.06023,
+"lng": -34.870287,
+"site": "www.pokepet.com"
+},
+{
+"id": 7,
+"nome": "Jorge Rações",
+"descricao": "Horario de funcionamento: 12:00 - 18:00 de segunda a sexta",
+"lat": -8.060267,
+"lng": -34.871977,
+"site": "www.jorgeracoes.net"
+},
+{
+"id": 8,
+"nome": "Clínica Veterinária Tabosa",
+"descricao": "Horario de funcionamento: 12:00 - 22:00 de segunda a sexta",
+"lat": -8.059534,
+"lng": -34.869858,
+"site": "www.clinicatabosa.com"
+},
+{
+"id": 9,
+"nome": "Veterinária do Recife",
+"descricao": "Horario de funcionamento: 08:00 - 22:00 de segunda a sexta",
+"lat": -8.058296,
+"lng": -34.872109,
+"site": "www.vetrecife.com"
+},
+{
+"id": 10,
+"nome": "Centro Veterinário Alexandria",
+"descricao": "Horario de funcionamento: 10:00 - 18:00 de segunda a sexta com tosa, banho, rações",
+"lat": -8.059807,
+"lng": -34.871849,
+"site": "www.alexandriaveterinaria.com.br"
 }
 ] 
 }
