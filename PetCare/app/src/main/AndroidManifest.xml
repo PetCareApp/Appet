@@ -25,7 +25,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.AnimalActivity" />
-        <activity android:name=".activity.ConsultaPerfilActivity" />
+        <activity android:name=".activity.ConsultaPerfilActivity">
+
+        </activity>
         <activity android:name=".activity.ConsultaAnimalActivity" />
         <activity
             android:name=".activity.SplashScreenActivity"
@@ -37,7 +39,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.DetalhesAnimalActivity" />
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.MainActivity">
+        </activity>
         <activity android:name=".activity.AlterarAnimalActivity"></activity>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"

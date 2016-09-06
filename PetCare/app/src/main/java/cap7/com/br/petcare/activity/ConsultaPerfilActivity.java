@@ -5,16 +5,18 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import cap7.com.br.petcare.R;
 import cap7.com.br.petcare.Util.Contrato;
+import cap7.com.br.petcare.Util.ScriptDB;
 import cap7.com.br.petcare.dao.ProprietarioDao;
 import cap7.com.br.petcare.model.Proprietario;
-import cap7.com.br.petcare.Util.ScriptDB;
 
 public class ConsultaPerfilActivity extends AppCompatActivity {
 
@@ -27,6 +29,7 @@ public class ConsultaPerfilActivity extends AppCompatActivity {
     EditText edtTelefone;
     EditText edtEmail;
     Button btnAlterar;
+    private Toolbar toolbar;
 
     Cursor cursor;
     SharedPreferences preferences;
@@ -35,6 +38,11 @@ public class ConsultaPerfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consulta_perfil);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         idProprietario = this.getIntent().getIntExtra("id", -1);
         proprietarioDao = new ProprietarioDao(getBaseContext());
@@ -48,6 +56,8 @@ public class ConsultaPerfilActivity extends AppCompatActivity {
         edtNome.setText(cursor.getString(cursor.getColumnIndexOrThrow(ScriptDB.PROPRIETARIO_NOME)));
         edtEmail.setText(cursor.getString(cursor.getColumnIndexOrThrow(ScriptDB.PROPRIETARIO_EMAIL)));
         edtTelefone.setText(cursor.getString(cursor.getColumnIndexOrThrow(ScriptDB.PROPRIETARIO_TELEFONE)));
+
+
 
         btnAlterar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,4 +93,21 @@ public class ConsultaPerfilActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent it = new Intent(ConsultaPerfilActivity.this, MainActivity.class);
+                startActivity(it);
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
 }
