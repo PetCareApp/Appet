@@ -67,10 +67,10 @@
                 android:layout_marginRight="24dp"
                 android:onClick="obterUltimaLocalizacao"
                 android:src="@drawable/ic_location_searching"
+                android:tint="@color/texto"
                 app:fabSize="normal"
-                android:tint="@color/White"
                 app:borderWidth="0dp"
-                android:backgroundTint="#9E9E9E"
+                android:backgroundTint="#35355a"
                 android:layout_gravity="bottom|end" />
 
 
@@ -87,6 +87,8 @@
         android:layout_gravity="start"
         android:background="@color/White"
         app:headerLayout="@layout/header"
+        app:itemIconTint="#35355a"
+        app:itemTextColor="#35355a"
         app:menu="@menu/drawer"
         />
 

@@ -5,18 +5,22 @@
         <item
             android:id="@+id/profile_proprietario"
             android:checked="false"
+            android:textColor="#35355a"
             android:icon="@drawable/ic_face_black_24dp"
-            android:title="@string/txt_profile_perfil" />
+            android:title="@string/txt_profile_perfil"
+            />
 
         <item
             android:id="@+id/profile_pets"
             android:checked="false"
+            android:textColor="#35355a"
             android:icon="@drawable/ic_pets_black_24dp"
             android:title="@string/txt_profile_meuspets" />
 
         <item
             android:id="@+id/profile_add_pets"
             android:checked="false"
+            android:textColor="#35355a"
             android:icon="@drawable/ic_add_box_black_24dp"
             android:title="@string/txt_profile_addpets" />
 

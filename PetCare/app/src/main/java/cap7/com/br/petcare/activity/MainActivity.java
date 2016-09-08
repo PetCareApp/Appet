@@ -177,9 +177,11 @@ public class MainActivity extends AppCompatActivity implements
                 Toast.makeText(getApplicationContext(), "content1 :)", Toast.LENGTH_SHORT).show();
 
                 View v = getLayoutInflater().inflate(R.layout.custom_infowindow, null);
-
-                Button titleUi = ((Button) v.findViewById(R.id.btnAcessarPetshops));
-                titleUi.setText(arg0.getTitle());
+                TextView titulo = (TextView) v.findViewById(R.id.markTitulo);
+                titulo.setText(arg0.getTitle());
+                titulo.setTextColor(getResources().getColor(R.color.texto));
+                //Button titleUi = ((Button) v.findViewById(R.id.btnAcessarPetshops));
+                //titleUi.setText(arg0.getTitle());
                 return v;
             }
 

@@ -2,7 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:orientation="vertical"
-    android:background="@drawable/bdheader">
+    android:backgroundTint="#35355a"
+    android:background="#35355a">
     <!--android:background="@drawable/bdheader"-->
 
 
@@ -11,11 +12,8 @@
         android:layout_height="60dp"
         android:src="@drawable/minilogo"
         android:id="@+id/imageView2"
-        android:layout_marginLeft="26dp"
-        android:layout_marginStart="26dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,11 +23,10 @@
         android:textColor="#FFF"
         android:textStyle="bold"
         android:gravity="left"
-        android:paddingBottom="4dp"
+        android:paddingBottom="0dp"
         android:id="@+id/lblProprietarioNomePerfil"
         android:layout_below="@+id/imageView2"
-        android:layout_alignLeft="@+id/imageView2"
-        android:layout_alignStart="@+id/imageView2" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,10 +35,9 @@
         android:id="@+id/lblProprietarioEmailPerfil"
         android:gravity="left"
         android:textSize="14sp"
-        android:textColor="#8abff9"
+        android:textColor="#FFF"
         android:layout_below="@+id/lblProprietarioNomePerfil"
-        android:layout_alignLeft="@+id/lblProprietarioNomePerfil"
-        android:layout_alignStart="@+id/lblProprietarioNomePerfil" />
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
