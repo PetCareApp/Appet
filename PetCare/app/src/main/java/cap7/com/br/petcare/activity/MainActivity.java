@@ -67,6 +67,7 @@ import cap7.com.br.petcare.R;
 import cap7.com.br.petcare.Util.BuscarLocalTask;
 import cap7.com.br.petcare.Util.Contrato;
 import cap7.com.br.petcare.Util.ScriptDB;
+import cap7.com.br.petcare.cap7.petfy.AnimalListagemActivity;
 import cap7.com.br.petcare.dao.AnimalDao;
 import cap7.com.br.petcare.dao.PetshopHttp;
 import cap7.com.br.petcare.model.Animal;
@@ -245,8 +246,8 @@ public class MainActivity extends AppCompatActivity implements
                         finish();
                         return true;
                     case R.id.profile_pets:
-                        Toast.makeText(getApplicationContext(), "PETS SELECIONADO :)", Toast.LENGTH_SHORT).show();
-                        Intent itMeusPets = new Intent(MainActivity.this, ConsultaAnimalActivity.class);
+                        Toast.makeText(getApplicationContext(), "PETS NOVO SELECIONADO :)", Toast.LENGTH_SHORT).show();
+                        Intent itMeusPets = new Intent(MainActivity.this, AnimalListagemActivity.class);
                         itMeusPets.putExtra("id", id);
                         startActivity(itMeusPets);
                         finish();

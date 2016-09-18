@@ -18,13 +18,13 @@ public class AnimalDao extends DBDao {
 
     public long save(Animal animal) {
         ContentValues values = new ContentValues();
-        values.put(ScriptDB.ANIMAL_CODIGO, animal.getCodigo());
+       // values.put(ScriptDB.ANIMAL_CODIGO, animal.getCodigo());
         values.put(ScriptDB.ANIMAL_NOME, animal.getNome());
         values.put(ScriptDB.ANIMAL_NASCIMENTO, animal.getNascimento());
         values.put(ScriptDB.ANIMAL_ESPECIE, animal.getEspecie());
         values.put(ScriptDB.ANIMAL_SEXO, animal.getSexo());
-        values.put(ScriptDB.ANIMAL_RACA, animal.getRaca());
-        values.put(ScriptDB.ANIMAL_COR, animal.getCor());
+        //values.put(ScriptDB.ANIMAL_RACA, animal.getRaca());
+        //values.put(ScriptDB.ANIMAL_COR, animal.getCor());
 
         return database.insert(ScriptDB.TAB_ANIMAL, null, values);
     }
@@ -60,8 +60,8 @@ public class AnimalDao extends DBDao {
                 raca = cursor.getString(cursor.getColumnIndexOrThrow(ScriptDB.ANIMAL_RACA));
                 animal.setId(Integer.valueOf(id));
                 animal.setNome(nome);
-                animal.setCor(cor);
-                animal.setRaca(raca);
+          //      animal.setCor(cor);
+            //    animal.setRaca(raca);
             } while (cursor.moveToNext());
         }
         return animal;

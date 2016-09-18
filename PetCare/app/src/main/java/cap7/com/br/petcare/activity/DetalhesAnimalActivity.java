@@ -57,8 +57,8 @@ public class DetalhesAnimalActivity extends AppCompatActivity {
         txtRacaAnimal = (TextView) findViewById(R.id.txtDetalhePetRaca);
 
         txtNomeAnimal.setText(animal.getNome());
-        txtCorAnimal.setText(animal.getCor());
-        txtRacaAnimal.setText(animal.getRaca());
+      //  txtCorAnimal.setText(animal.getCor());
+       // txtRacaAnimal.setText(animal.getRaca());
 
         btnAlterarPet.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -45,8 +45,8 @@ public class AlterarAnimalActivity extends AppCompatActivity {
         editCor = (EditText) findViewById(R.id.editPetAltCor);
 
         editNome.setText(mAnimal.getNome());
-        editCor.setText(mAnimal.getCor());
-        editRaca.setText(mAnimal.getRaca());
+      //  editCor.setText(mAnimal.getCor());
+       // editRaca.setText(mAnimal.getRaca());
 
         btnAlterarPet = (Button) findViewById(R.id.btnPetAltSalvar);
         btnAlterarPet.setOnClickListener(new View.OnClickListener() {
@@ -58,15 +58,15 @@ public class AlterarAnimalActivity extends AppCompatActivity {
                 mAnimal = new Animal();
                 mAnimal.setId(idAnimal);
                 mAnimal.setNome(editNome.getText().toString());
-                mAnimal.setCor(editCor.getText().toString());
-                mAnimal.setRaca(editRaca.getText().toString());
+         //       mAnimal.setCor(editCor.getText().toString());
+           //     mAnimal.setRaca(editRaca.getText().toString());
 
                 preferences = getSharedPreferences(Contrato.PREF_SETTINGS, 0);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putInt(Contrato.ID_ANIMAL_PREF, mAnimal.getId());
                 editor.putString(Contrato.NOME_ANIMAL_PREF, mAnimal.getNome());
-                editor.putString(Contrato.COR_ANIMAL_PREF, mAnimal.getCor());
-                editor.putString(Contrato.RACA_ANIMAL_PREF, mAnimal.getRaca());
+             //   editor.putString(Contrato.COR_ANIMAL_PREF, mAnimal.getCor());
+               // editor.putString(Contrato.RACA_ANIMAL_PREF, mAnimal.getRaca());
                 editor.commit();
 
                 Intent it = new Intent(AlterarAnimalActivity.this, DetalhesAnimalActivity.class);

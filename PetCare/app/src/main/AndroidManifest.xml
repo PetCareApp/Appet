@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cap7.com.br.petcare">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
@@ -25,9 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.AnimalActivity" />
-        <activity android:name=".activity.ConsultaPerfilActivity">
-
-        </activity>
+        <activity android:name=".activity.ConsultaPerfilActivity" />
         <activity android:name=".activity.ConsultaAnimalActivity" />
         <activity
             android:name=".activity.SplashScreenActivity"
@@ -39,15 +39,59 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.DetalhesAnimalActivity" />
-        <activity android:name=".activity.MainActivity">
-        </activity>
-        <activity android:name=".activity.AlterarAnimalActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.AlterarAnimalActivity" />
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyA_iFwz1WQaLEJxo6zILdeQC_InFktGk3Y" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".cap7.petfy.Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".cap7.petfy.AnimalListagemActivity"
+            android:label="@string/title_activity_animal_listagem"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".cap7.petfy.AnimalDetalheActivity"
+            android:label="@string/title_activity_animal_detalhe"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".cap7.petfy.AnimalCadastroActivity"
+            android:label="@string/title_activity_animal_cadastro"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".cap7.petfy.AddVermifugacaoActivity"
+            android:label="@string/title_activity_add_vermifugacao"
+            android:parentActivityName=".cap7.petfy.AnimalDetalheActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cap7.petfy.AnimalDetalheActivity" />
+        </activity>
+        <activity
+            android:name=".cap7.petfy.AddVacinaActivity"
+            android:label="@string/title_activity_add_vacina"
+            android:parentActivityName=".cap7.petfy.AnimalDetalheActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cap7.petfy.AnimalDetalheActivity" />
+        </activity>
+        <activity
+            android:name=".cap7.petfy.AddMedicacaoActivity"
+            android:label="@string/title_activity_add_medicacao"
+            android:parentActivityName=".cap7.petfy.AnimalDetalheActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cap7.petfy.AnimalDetalheActivity" />
+        </activity>
     </application>
 
 </manifest>

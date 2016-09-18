@@ -38,6 +38,56 @@
     <string name="openDrawer">Navigation View Fechada</string>
     <string name="msg_buscar">Localizando endereço...</string>
     <string name="titulo_lista_endereco">Selecione o destino</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_animal_listagem">AnimalListagemActivity</string>
+    <string name="title_activity_animal_detalhe">AnimalDetalheActivity</string>
+    <string name="title_activity_animal_cadastro">AnimalCadastroActivity</string>
+
+
+    <!-- animal v. -->
+
+    <!-- Cadastro de animal -->
+    <string name="animal_txt_nome">Nome</string>
+    <string name="animal_txt_sexo">Sexo</string>
+    <string name="animal_txt_nasc">Nascimento</string>
+    <string name="animal_txt_especie">Espécie</string>
+    <string name="animal_btn_salvar">Salvar</string>
+    <string name="animal_cadastro_label">Cadastrar Animal</string>
+    <string name="animal_rd_macho">Macho</string>
+    <string name="animal_rd_femea">Fêmea</string>
+    <string name="animal_rd_cachorro">Cachorro</string>
+    <string name="animal_rd_gato">Gato</string>
+
+    <!-- Listagem de animais -->
+    <string name="animal_listagem_label">Meus animais</string>
+
+    <!-- Detalhe Animal - Fragmentos -->
+    <string name="frag_detalhe_info">Informações</string>
+    <string name="fragment_detalhe">Detalhes</string>
+    <string name="fragment_vacina">Vacina</string>
+    <string name="fragment_medicacao">Medicação</string>
+    <string name="fragment_vermifugacao">Vermifugação</string>
+
+    <!-- Fragmento vacinação -->
+    <string name="frag_vacina_nome">Nome da vacina</string>
+    <string name="frag_vacina_data">Data da vacina</string>
+    <string name="frag_vacina_btn_salvar">Salvar</string>
+
+    <!-- Fragmento medicação -->
+    <string name="frag_med_nome">Nome do medicamento</string>
+    <string name="frag_med_data">Data da medicação</string>
+    <string name="frag_med_btn_salvar">Salvar</string>v
+
+    <!-- Fragmento vermifugação -->
+    <string name="frag_verm_nome">Nome do vermífugo</string>
+    <string name="frag_verm_data">Data da vermifugação</string>
+    <string name="frag_verm_btn_salvar">Salvar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_add_vacina">AddVacinaActivity</string>
+    <string name="title_activity_add_medicacao">AddMedicacaoActivity</string>
+    <string name="title_activity_add_vermifugacao">AddVermifugacaoActivity</string>
 
 
 </resources>

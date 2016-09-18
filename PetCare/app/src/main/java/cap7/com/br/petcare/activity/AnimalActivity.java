@@ -79,8 +79,8 @@ public class AnimalActivity extends AppCompatActivity {
         animal.setNome(editNome.getText().toString());
         //animal.setEspecie(Animal.Especie.valueOf(spinEspecie.getSelectedItem().toString()));
         //animal.setSexo(Animal.Sexo.valueOf(spinSexo.getSelectedItem().toString()));
-        animal.setRaca(editRaca.getText().toString());
-        animal.setCor(editCor.getText().toString());
+      //  animal.setRaca(editRaca.getText().toString());
+       // animal.setCor(editCor.getText().toString());
 
         long resposta = animalDao.save(animal);
         if (resposta > -1){
