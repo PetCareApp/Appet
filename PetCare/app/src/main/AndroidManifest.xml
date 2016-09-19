@@ -21,26 +21,34 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.ProprietarioActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.AnimalActivity" />
-        <activity android:name=".activity.ConsultaPerfilActivity" />
-        <activity android:name=".activity.ConsultaAnimalActivity" />
+        <activity android:name=".activity.AnimalActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.ConsultaPerfilActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ConsultaAnimalActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.SplashScreenActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.DetalhesAnimalActivity" />
-        <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.AlterarAnimalActivity" />
+        <activity android:name=".activity.DetalhesAnimalActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.AlterarAnimalActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -51,23 +59,23 @@
 
         <activity
             android:name=".cap7.petfy.Main2Activity"
-            android:label="@string/title_activity_main2"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".cap7.petfy.AnimalListagemActivity"
-            android:label="@string/title_activity_animal_listagem"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".cap7.petfy.AnimalDetalheActivity"
-            android:label="@string/title_activity_animal_detalhe"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".cap7.petfy.AnimalCadastroActivity"
-            android:label="@string/title_activity_animal_cadastro"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".cap7.petfy.AddVermifugacaoActivity"
-            android:label="@string/title_activity_add_vermifugacao"
+            android:screenOrientation="portrait"
             android:parentActivityName=".cap7.petfy.AnimalDetalheActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -76,7 +84,7 @@
         </activity>
         <activity
             android:name=".cap7.petfy.AddVacinaActivity"
-            android:label="@string/title_activity_add_vacina"
+            android:screenOrientation="portrait"
             android:parentActivityName=".cap7.petfy.AnimalDetalheActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -85,7 +93,7 @@
         </activity>
         <activity
             android:name=".cap7.petfy.AddMedicacaoActivity"
-            android:label="@string/title_activity_add_medicacao"
+            android:screenOrientation="portrait"
             android:parentActivityName=".cap7.petfy.AnimalDetalheActivity"
             android:theme="@style/AppTheme">
             <meta-data

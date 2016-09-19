@@ -11,6 +11,8 @@
         layout="@layout/tool_bar"
         />
 
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,9 +20,8 @@
         android:text="@string/txt_nome_proprietario"
         android:id="@+id/txtNomeProprietarioAlterar"
         android:layout_above="@+id/edtNomeProprietarioAlterar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="30dp" />
+        android:layout_alignLeft="@+id/edtNomeProprietarioAlterar"
+        android:layout_alignStart="@+id/edtNomeProprietarioAlterar" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -30,6 +31,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="44dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -39,8 +42,8 @@
         android:text="@string/txt_email_proprietario"
         android:id="@+id/txtEmailProprietarioAlterar"
         android:layout_above="@+id/edtEmailProprietarioAlterar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignLeft="@+id/edtEmailProprietarioAlterar"
+        android:layout_alignStart="@+id/edtEmailProprietarioAlterar" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -48,37 +51,65 @@
         android:id="@+id/edtEmailProprietarioAlterar"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="40dp"
+        android:layout_marginLeft="40dp"/>
 
     <TextView android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/txt_tel_proprietario"
         android:id="@+id/txtTelProprietarioAlterar"
-        android:layout_marginTop="105dp"
+        android:layout_marginTop="56dp"
         android:layout_below="@+id/edtEmailProprietarioAlterar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignLeft="@+id/edtEmailProprietarioAlterar"
+        android:layout_alignStart="@+id/edtEmailProprietarioAlterar" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/edtTelProprietarioAlterar"
-        android:layout_below="@+id/txtTelProprietarioAlterar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="82dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:inputType="phone"
+        android:layout_alignRight="@+id/edtNomeProprietarioAlterar"
+        android:layout_alignEnd="@+id/edtNomeProprietarioAlterar"
+        android:layout_alignLeft="@+id/txtTelProprietarioAlterar"
+        android:layout_alignStart="@+id/txtTelProprietarioAlterar"
+        android:layout_below="@+id/txtTelProprietarioAlterar" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:shadowColor="#f9daa8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:textColor="#f9daa8"
+        android:textSize="25sp"
+        android:elegantTextHeight="true"
         android:text="@string/btn_salvar_proprietario"
         android:id="@+id/btnSalvarProprietarioAlterar"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/edtTelProprietarioAlterar"
+        android:layout_alignStart="@+id/edtTelProprietarioAlterar"
+        android:layout_marginBottom="42dp"
+        android:layout_alignRight="@+id/edtTelProprietarioAlterar"
+        android:layout_alignEnd="@+id/edtTelProprietarioAlterar" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Alterar Perfil"
+        android:id="@+id/textViewPerfil"
+        android:textColor="@color/colorPrimary"
+        android:layout_below="@+id/toolbar"
         android:layout_alignParentLeft="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="40dp"
         android:layout_alignParentStart="true" />
 
 </RelativeLayout>

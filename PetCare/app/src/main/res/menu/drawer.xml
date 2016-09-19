@@ -24,6 +24,13 @@
             android:icon="@drawable/ic_add_box_black_24dp"
             android:title="@string/txt_profile_addpets" />
 
+        <item
+            android:id="@+id/deslogar"
+            android:checked="false"
+            android:textColor="#35355a"
+            android:icon="@drawable/ic_power"
+            android:title="Sair" />
+
     </group>
     
 

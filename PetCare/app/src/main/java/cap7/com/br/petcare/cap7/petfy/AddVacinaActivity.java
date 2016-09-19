@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -22,6 +23,8 @@ public class AddVacinaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_vacina);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         nome = (EditText) findViewById(R.id.edit_vacina_nome);
         data = (EditText) findViewById(R.id.edit_vacina_data);
@@ -43,5 +46,17 @@ public class AddVacinaActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent it = new Intent(AddVacinaActivity.this, AnimalListagemActivity.class);
+                startActivity(it);
+                finish();
+                return true;
+        }
 
+        return super.onOptionsItemSelected(item);
+    }
 }

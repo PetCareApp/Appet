@@ -97,6 +97,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/animal_btn_salvar"
                 android:id="@+id/btn_animal_salvar"
+                android:backgroundTint="@color/colorPrimary"
+                android:textColor="@color/colorAccent"
                 android:layout_gravity="center_horizontal"
                 android:onClick="onSalvar"/>
 

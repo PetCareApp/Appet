@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import cap7.com.br.petcare.R;
+import cap7.com.br.petcare.activity.MainActivity;
 import cap7.com.br.petcare.adapter.AdapterListViewAnimal;
 import cap7.com.br.petcare.controller.AnimalController;
 import cap7.com.br.petcare.model.Animal;
@@ -21,6 +23,9 @@ public class AnimalListagemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_animal_listagem);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         AnimalController animalController = new AnimalController(getBaseContext());
         AdapterListViewAnimal adapterAnimal = new AdapterListViewAnimal(this, animalController.getAll());
@@ -46,4 +51,17 @@ public class AnimalListagemActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent it = new Intent(AnimalListagemActivity.this, MainActivity.class);
+                startActivity(it);
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

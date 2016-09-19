@@ -3,6 +3,8 @@ package cap7.com.br.petcare.cap7.petfy;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +25,11 @@ public class AnimalCadastroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_animal_cadastro);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         nome = (EditText) findViewById(R.id.edit_animal_nome);
         nascimento = (EditText) findViewById(R.id.edit_animal_nasc);
@@ -50,6 +57,20 @@ public class AnimalCadastroActivity extends AppCompatActivity {
 
         Intent intent = new Intent(view.getContext(), AnimalListagemActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                Intent it = new Intent(AnimalCadastroActivity.this, AnimalListagemActivity.class);
+                startActivity(it);
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }

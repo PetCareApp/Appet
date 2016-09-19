@@ -67,6 +67,7 @@ import cap7.com.br.petcare.R;
 import cap7.com.br.petcare.Util.BuscarLocalTask;
 import cap7.com.br.petcare.Util.Contrato;
 import cap7.com.br.petcare.Util.ScriptDB;
+import cap7.com.br.petcare.cap7.petfy.AnimalCadastroActivity;
 import cap7.com.br.petcare.cap7.petfy.AnimalListagemActivity;
 import cap7.com.br.petcare.dao.AnimalDao;
 import cap7.com.br.petcare.dao.PetshopHttp;
@@ -176,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements
         mGoogleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
             public View getInfoWindow(Marker arg0) {
-                Toast.makeText(getApplicationContext(), "content1 :)", Toast.LENGTH_SHORT).show();
 
                 View v = getLayoutInflater().inflate(R.layout.custom_infowindow, null);
                 TextView titulo = (TextView) v.findViewById(R.id.markTitulo);
@@ -188,9 +188,7 @@ public class MainActivity extends AppCompatActivity implements
             }
 
             public View getInfoContents(Marker arg0) {
-                mBtnAcessarPetshops.setText("content2teste");
                 //View v = getLayoutInflater().inflate(R.layout.custom_infowindow, null);
-                Toast.makeText(getApplicationContext(), "content2 :)", Toast.LENGTH_SHORT).show();
                 return null;
 
             }
@@ -202,12 +200,18 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onInfoWindowClick(Marker marker) {
 
-                Toast.makeText(getApplicationContext(), marker.getTitle(), Toast.LENGTH_SHORT).show();
                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                 CustomTabsIntent customTabsIntent = builder.build();
+
                 try {
-                customTabsIntent.launchUrl(MainActivity.this, Uri.parse(marker.getSnippet()));
+                    String linkBuilder = marker.getSnippet();
+                    if (!linkBuilder.contains("http")){
+                        linkBuilder = "http://"+linkBuilder;
+                    }
+                    String b = marker.getTitle();
+                customTabsIntent.launchUrl(MainActivity.this, Uri.parse(linkBuilder));
                 } catch (Exception e){
+                    customTabsIntent.launchUrl(MainActivity.this, Uri.parse(marker.getSnippet().toString()));
                     customTabsIntent.launchUrl(MainActivity.this, Uri.parse("http://www.google.com"));
                 }
             }
@@ -239,25 +243,25 @@ public class MainActivity extends AppCompatActivity implements
 
                 switch (menuItem.getItemId()) {
                     case R.id.profile_proprietario:
-                        Toast.makeText(getApplicationContext(), "PERFIL SELECIONADO :)", Toast.LENGTH_SHORT).show();
                         Intent itPerfil = new Intent(MainActivity.this, ConsultaPerfilActivity.class);
                         itPerfil.putExtra("id", id);
                         startActivity(itPerfil);
                         finish();
                         return true;
                     case R.id.profile_pets:
-                        Toast.makeText(getApplicationContext(), "PETS NOVO SELECIONADO :)", Toast.LENGTH_SHORT).show();
                         Intent itMeusPets = new Intent(MainActivity.this, AnimalListagemActivity.class);
                         itMeusPets.putExtra("id", id);
                         startActivity(itMeusPets);
                         finish();
                         return true;
                     case R.id.profile_add_pets:
-                        Toast.makeText(getApplicationContext(), "ADD PETS SELECIONADO :)", Toast.LENGTH_SHORT).show();
-                        Intent itAddPets = new Intent(MainActivity.this, AnimalActivity.class);
+                        Intent itAddPets = new Intent(MainActivity.this, AnimalCadastroActivity.class);
                         itAddPets.putExtra("id", id);
                         startActivity(itAddPets);
                         finish();
+                        return true;
+                    case R.id.deslogar:
+                        System.exit(0);
                         return true;
                     default:
                       /*  try {
@@ -356,8 +360,6 @@ public class MainActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == android.R.drawable.ic_menu_search) {
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
             return true;
         }
 
@@ -388,7 +390,7 @@ public class MainActivity extends AppCompatActivity implements
         } */
         //oi
 
-        if (mOrigem != null){
+       /* if (mOrigem != null){
             Marker melbourne = mGoogleMap.addMarker(new MarkerOptions()
                     .position(mOrigem)
                     .title("petshop x")
@@ -399,7 +401,7 @@ public class MainActivity extends AppCompatActivity implements
                     .position(mDestino)
                     .title("petshop y")
                     .snippet("Local Atual y"));
-        }
+        } deletar */
         if (mOrigem != null) {
             if (mDestino != null) {
                 LatLngBounds area = new LatLngBounds.Builder()
@@ -596,7 +598,6 @@ public class MainActivity extends AppCompatActivity implements
             mGoogleApiClient.connect();
             if (mTask == null){
                 if (PetshopHttp.temConexao(MainActivity.this)){
-                    Toast.makeText(this, "bbbbbbb!", Toast.LENGTH_SHORT).show();
                     iniciarDownload();
                     //   preencherMapa();
                 } else {
@@ -617,7 +618,6 @@ public class MainActivity extends AppCompatActivity implements
                 }
                 if (mTask == null){
                     if (PetshopHttp.temConexao(MainActivity.this)){
-                        Toast.makeText(this, "AAAAAA!", Toast.LENGTH_SHORT).show();
                         iniciarDownload();
 
                     } else {
@@ -628,7 +628,7 @@ public class MainActivity extends AppCompatActivity implements
                 }
                 //oi
             } else {
-                Toast.makeText(this, "Habilite o GPS para te localizarmos!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Habilite o GPS para te localizarmos!", Toast.LENGTH_SHORT).show();
                 //finish();
                 //fecha a aplicacao se nao tiver o gps (remover isso)
             }
@@ -755,7 +755,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void exibirProgress(boolean exibir) {
         if (exibir) {
-            Toast.makeText(getApplicationContext(), "baixando)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Localizando Petshops...", Toast.LENGTH_SHORT).show();
         }
         //   mTextMensagem.setVisibility(exibir ? View.VISIBLE : View.GONE);
         //    mProgressBar.setVisibility(exibir ? View.VISIBLE : View.GONE);

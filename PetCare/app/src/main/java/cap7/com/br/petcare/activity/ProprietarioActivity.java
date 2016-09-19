@@ -76,6 +76,7 @@ public class ProprietarioActivity extends Activity {
                 editor.putInt(Contrato.ID_PROPRIETARIO_PREF, proprietario.getId());
                 editor.commit();
 
+                //aq
                 Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
 
                 Intent it = new Intent(ProprietarioActivity.this, MainActivity.class);
