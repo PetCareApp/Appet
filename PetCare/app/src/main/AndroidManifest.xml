@@ -27,11 +27,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.AnimalActivity"
-            android:screenOrientation="portrait" />
         <activity android:name=".activity.ConsultaPerfilActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ConsultaAnimalActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.SplashScreenActivity"
@@ -43,11 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.DetalhesAnimalActivity"
-            android:screenOrientation="portrait"/>
         <activity android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.AlterarAnimalActivity"
             android:screenOrientation="portrait"/>
 
         <meta-data

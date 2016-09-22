@@ -264,13 +264,6 @@ public class MainActivity extends AppCompatActivity implements
                         System.exit(0);
                         return true;
                     default:
-                      /*  try {
-                            animal = animalDao.recuperarAnimal(menuItem.getItemId());
-                            Intent itAnimal = new Intent(MainActivity.this, DetalhesAnimalActivity.class);
-                            itAnimal.putExtra("idAnimal", Integer.valueOf(animal.getId()));
-                            itAnimal.putExtra("nomeAnimal", animal.getNome());
-                            startActivity(itAnimal);
-                        } catch (Exception e) {*/
                         Toast.makeText(getApplicationContext(), "Erro ao selecionar o menu.", Toast.LENGTH_SHORT).show();
                         // } finally {
                         return true;
